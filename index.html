@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BOOLIFY — Boolean Algebra Learning Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">B</div><div><b>BOOLIFY</b><small>LEARNING STUDIO</small></div></div>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav-btn active" data-page="simplifier"><span>⌘</span> Simplifier</button>
+      <button class="nav-btn" data-page="truth"><span>▦</span> Truth table</button>
+      <button class="nav-btn" data-page="laws"><span>∑</span> Boolean laws</button>
+      <button class="nav-btn" data-page="gates"><span>◈</span> Gate simulator</button>
+      <button class="nav-btn" data-page="quiz"><span>✳</span> Practice quiz</button>
+      <div class="sidebar-bottom"><div class="status-dot"></div><span>Digital Electronics Learning Studio</span></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar"><div><div class="eyebrow">DIGITAL ELECTRONICS / BOOLEAN LOGIC</div><h1 id="pageTitle">Boolean Simplifier</h1></div><div class="top-chip"><span class="live-dot"></span> INTERACTIVE LEARNING</div></header>
+
+      <section class="page active" id="simplifier">
+        <div class="intro"><div><h2>Simplify smarter.</h2><p>Enter a Boolean expression and understand every transformation.</p></div><div class="intro-icon">ƒ</div></div>
+        <div class="workspace-grid">
+          <div class="panel editor-panel">
+            <div class="panel-head"><div><span class="step-tag">01 / INPUT</span><h3>Expression editor</h3></div><span class="muted">UP TO 5 VARIABLES</span></div>
+            <label for="expression">BOOLEAN EXPRESSION</label>
+            <input id="expression" class="expression-input" value="A + A.B" autocomplete="off" spellcheck="false"/>
+            <div class="syntax-help">Use <b>+</b> for OR · <b>.</b> or <b>*</b> for AND · <b>'</b> for NOT · parentheses for grouping</div>
+            <div class="quick-examples"><span>TRY:</span><button data-example="A + A">A + A</button><button data-example="A.A'">A.A'</button><button data-example="A + A.B">A + A.B</button><button data-example="(A+B)'"> (A+B)' </button></div>
+            <div class="action-row"><button class="primary-btn" id="simplifyBtn">✦ Simplify expression</button><button class="secondary-btn" id="clearBtn">Clear</button></div>
+            <div class="error" id="errorBox"></div>
+          </div>
+          <div class="panel result-panel">
+            <div class="panel-head"><div><span class="step-tag">02 / RESULT</span><h3>Simplified output</h3></div><span class="success-label">● READY</span></div>
+            <div class="result-box"><div class="result-caption">MINIMIZED EXPRESSION</div><div id="result" class="result-value">A</div><div id="resultNote" class="result-note">Your simplified expression will appear here.</div></div>
+            <div class="result-stats"><div><b id="stepCount">0</b><span>Steps shown</span></div><div><b id="variableCount">0</b><span>Variables</span></div><div><b id="rowCount">0</b><span>Truth rows</span></div></div>
+          </div>
+        </div>
+        <div class="panel steps-panel"><div class="panel-head"><div><span class="step-tag">03 / LEARN</span><h3>Simplification journey</h3></div><span class="muted">LAW-BY-LAW EXPLANATION</span></div><div id="steps" class="steps-empty">Enter an expression and select <b>Simplify expression</b> to see the working.</div></div>
+        <div class="panel truth-preview"><div class="panel-head"><div><span class="step-tag">04 / VERIFY</span><h3>Logic verification</h3></div><span class="muted">ORIGINAL VS SIMPLIFIED</span></div><div id="verification" class="verify-empty">The truth-table comparison will appear after simplification.</div></div>
+      </section>
+
+      <section class="page" id="truth">
+        <div class="page-intro"><span class="step-tag">LOGIC ANALYSIS</span><h2>Truth table generator</h2><p>Check every possible input combination for a Boolean expression.</p></div>
+        <div class="panel"><label for="truthExpression">BOOLEAN EXPRESSION</label><div class="inline-form"><input id="truthExpression" class="expression-input" value="A.B + A'"/><button class="primary-btn" id="generateTruth">Generate table</button></div><div id="truthError" class="error"></div><div id="truthTableOutput" class="table-wrap"></div></div>
+      </section>
+
+      <section class="page" id="laws">
+        <div class="page-intro"><span class="step-tag">BOOLEAN ALGEBRA REFERENCE</span><h2>Boolean laws library</h2><p>Quick explanations of the identities used to simplify logic expressions.</p></div>
+        <div class="law-grid" id="lawGrid"></div>
+      </section>
+
+      <section class="page" id="gates">
+        <div class="page-intro"><span class="step-tag">INTERACTIVE LAB</span><h2>Logic gate simulator</h2><p>Explore all seven fundamental logic gates. Toggle the inputs and watch the output update instantly.</p></div>
+        <div class="gate-grid">
+          <div class="panel gate-card"><div class="gate-title">AND GATE <span>A · B</span></div><div class="gate-controls"><label>A <button class="toggle" data-gate="and" data-input="a">0</button></label><label>B <button class="toggle" data-gate="and" data-input="b">0</button></label></div><div class="gate-output"><span>OUTPUT</span><b id="andOutput">0</b></div><p>Output is 1 only when both inputs are 1.</p></div>
+          <div class="panel gate-card"><div class="gate-title">OR GATE <span>A + B</span></div><div class="gate-controls"><label>A <button class="toggle" data-gate="or" data-input="a">0</button></label><label>B <button class="toggle" data-gate="or" data-input="b">0</button></label></div><div class="gate-output"><span>OUTPUT</span><b id="orOutput">0</b></div><p>Output is 1 when at least one input is 1.</p></div>
+          <div class="panel gate-card"><div class="gate-title">NOT GATE <span>A'</span></div><div class="gate-controls"><label>A <button class="toggle" data-gate="not" data-input="a">0</button></label></div><div class="gate-output"><span>OUTPUT</span><b id="notOutput">1</b></div><p>Output is the complement of the input.</p></div>
+          <div class="panel gate-card"><div class="gate-title">NAND GATE <span>(A · B)'</span></div><div class="gate-controls"><label>A <button class="toggle" data-gate="nand" data-input="a">0</button></label><label>B <button class="toggle" data-gate="nand" data-input="b">0</button></label></div><div class="gate-output"><span>OUTPUT</span><b id="nandOutput">1</b></div><p>Output is 0 only when both inputs are 1.</p></div>
+          <div class="panel gate-card"><div class="gate-title">NOR GATE <span>(A + B)'</span></div><div class="gate-controls"><label>A <button class="toggle" data-gate="nor" data-input="a">0</button></label><label>B <button class="toggle" data-gate="nor" data-input="b">0</button></label></div><div class="gate-output"><span>OUTPUT</span><b id="norOutput">1</b></div><p>Output is 1 only when both inputs are 0.</p></div>
+          <div class="panel gate-card"><div class="gate-title">XOR GATE <span>A ⊕ B</span></div><div class="gate-controls"><label>A <button class="toggle" data-gate="xor" data-input="a">0</button></label><label>B <button class="toggle" data-gate="xor" data-input="b">0</button></label></div><div class="gate-output"><span>OUTPUT</span><b id="xorOutput">0</b></div><p>Output is 1 when the inputs are different.</p></div>
+          <div class="panel gate-card"><div class="gate-title">XNOR GATE <span>(A ⊕ B)'</span></div><div class="gate-controls"><label>A <button class="toggle" data-gate="xnor" data-input="a">0</button></label><label>B <button class="toggle" data-gate="xnor" data-input="b">0</button></label></div><div class="gate-output"><span>OUTPUT</span><b id="xnorOutput">1</b></div><p>Output is 1 when the inputs are the same.</p></div>
+        </div>
+        <div class="panel"><div class="panel-head"><div><span class="step-tag">CIRCUIT EXPERIMENT</span><h3>Combined gate example</h3></div><span class="muted">LIVE OUTPUT</span></div><p class="muted">Expression: (A AND B) OR NOT A</p><div class="gate-controls"><label>Input A <button class="toggle" data-gate="combo" data-input="a">0</button></label><label>Input B <button class="toggle" data-gate="combo" data-input="b">0</button></label></div><div class="gate-output"><span>OUTPUT</span><b id="comboOutput">1</b></div></div>
+        <div class="panel"><div class="panel-head"><div><span class="step-tag">REFERENCE</span><h3>Gate truth table</h3></div><span class="muted">ALL INPUT COMBINATIONS</span></div><div class="table-wrap"><table><thead><tr><th>A</th><th>B</th><th>AND</th><th>OR</th><th>NAND</th><th>NOR</th><th>XOR</th><th>XNOR</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr></tbody></table></div><p class="muted">NOT gate: input 0 → output 1; input 1 → output 0.</p></div>
+      </section>
+
+      <section class="page" id="quiz">
+        <div class="page-intro"><span class="step-tag">TEST YOURSELF</span><h2>Quick practice quiz</h2><p>Check your understanding of the fundamental Boolean laws.</p></div>
+        <div class="panel quiz-panel"><div class="quiz-top"><span class="step-tag" id="quizProgress">QUESTION 01 / 05</span><span class="muted" id="quizScore">SCORE: 0</span></div><h3 id="questionText"></h3><div id="options" class="options"></div><div id="quizFeedback" class="quiz-feedback"></div><button class="primary-btn" id="nextQuestion" disabled>Next question →</button></div>
+      </section>
+
+      <footer>BOOLIFY <span>·</span> Built for learning Digital Electronics <span>·</span> Boolean Algebra & Logic Gates</footer>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
